@@ -1,0 +1,35 @@
+- hosts: allvm
+  tasks:
+  - name: compat-expat1 on all  EL6 nodes
+    yum: name=compat-expat1 state=latest
+    async: 300
+    poll: 10
+    when:
+      ansible_distribution_major_version|int == 6
+  - name: compat-expat1 on all  EL6 nodes(i686)
+    yum: name=compat-expat1.i686 state=latest
+    async: 300
+    poll: 10
+    when:
+      ansible_distribution_major_version|int == 6
+
+
+  - name: expat on all EL5 nodes
+    yum: name=expat state=latest
+    async: 300
+    poll: 10
+    when:
+      ansible_distribution_major_version|int == 5
+  - name: expat on all EL5 nodes(i386)
+    yum: name=expat.i386 state=latest
+    async: 300
+    poll: 10
+    when:
+      ansible_distribution_major_version|int == 5
+
+
+
+  - name: ftp packages on all nodes. 
+    yum: name=ftp state=latest
+    async: 300
+    poll: 10

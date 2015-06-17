@@ -1,0 +1,7 @@
+- hosts: allvm
+  tasks:
+  - name: copy new snmpd.conf to ensure Zenoss functioning on Graph
+    copy: src=snmpd.conf  dest=/etc/snmp/snmpd.conf owner=root group=root mode=600 backup=yes
+    #when:
+    # ansible_distribution_major_version|int  >= 6
+

@@ -1,0 +1,13 @@
+- hosts: allvm
+  tasks:
+  - name: libattr-devel ensure installed the latest.
+    yum: name=libattr-devel state=latest
+  - name: lsscsi        ensure installed the latest.
+    yum: name=lsscsi state=latest
+  - name: openmpi-devel ensure installed the latest.
+    yum: name=openmpi-devel state=latest
+
+
+#  - name: Ensure portmap is running.
+#    service: name=portmap state=started enabled=yes
+

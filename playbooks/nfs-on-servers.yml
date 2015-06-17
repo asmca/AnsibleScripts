@@ -1,0 +1,15 @@
+- hosts: ALLSERVER
+  tasks:
+  - name: Ensure NFS server required packages installed./nfs-utils
+    yum: name=nfs-utils state=latest
+  - name: Ensure NFS server required packages installed./nfs-utils-lib
+    yum: name=nfs-utils-lib state=latest
+  - name: Ensure NFS server required packages installed./portmap
+    yum: name=portmap state=latest
+  - name: Ensure NFS is running.
+    service: name=nfs state=restarted enabled=yes
+
+
+#  - name: Ensure portmap is running.
+#    service: name=portmap state=started enabled=yes
+

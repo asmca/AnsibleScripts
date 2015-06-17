@@ -1,0 +1,73 @@
+- hosts: allvm
+  tasks:
+
+  - name: copy icewm necessary RPM to remote VM.(EL5,6,7.copy all.)
+    copy: src={{ item }} dest=/tmp/ owner=root mode=600
+    with_fileglob:
+    - /root/suse/RPM/icewm/*
+  
+# fribidi-0.19.2-2.el6.x86_64.rpm
+# fribidi-0.19.4-6.el7.x86_64.rpm
+# icewm-1.2.30-1.el5.rf.x86_64.rpm
+# icewm-1.3.8-3.el6.x86_64.rpm
+# icewm-1.3.8-5.el7.x86_64.rpm
+# imlib-1.9.13-1.el5.rf.x86_64.rpm
+
+
+  - name:  ensure icewm installed on EL5 nodes.
+    yum: pkg=/tmp/{{item.filename}} state=installed  disable_gpg_check=yes
+    with_items: 
+    - filename: imlib-1.9.15-6.el5.x86_64.rpm
+    - filename: icewm-1.3.7-7.el5.x86_64.rpm
+    when:
+      ansible_distribution_major_version|int == 5
+
+
+  - name:  ensure icewm installed on EL6 nodes.
+    yum: pkg=/tmp/{{item.filename}} state=installed
+    with_items: 
+    - filename: fribidi-0.19.2-2.el6.x86_64.rpm
+    - filename: icewm-1.3.8-3.el6.x86_64.rpm
+    when:
+      ansible_distribution_major_version|int == 6
+
+
+
+  - name:  ensure icewm installed on EL7 nodes.
+    yum: pkg=/tmp/{{item.filename}} state=installed
+    with_items: 
+    - filename: fribidi-0.19.4-6.el7.x86_64.rpm
+    - filename: icewm-1.3.8-5.el7.x86_64.rpm
+    when:
+      ansible_distribution_major_version|int == 7
+
+
+  - name:  ensure vncserver and other dependencies installed
+    yum: name={{item.filename}} state=installed
+    with_items: 
+    - filename: tigervnc-server
+    - filename: xsetroot
+    - filename: xterm 
+    - filename: /usr/bin/xrdb
+
+  - name: trick to patch vncserver, to use icewm as default
+    replace: dest=/usr/bin/vncserver regexp='(.*)twm(\s+.*)?$' replace='\1icewm\2'
+
+#    lineinfile: dest=/usr/bin/vncserver regexp=twm  line="icewm &\n");
+
+  - name:  To pass the CVU checks, ensure oracle-validated installed on  EL5.
+    yum: name={{item.filename}} state=installed
+    with_items:
+    - filename: oracle-validated
+    when:
+      ansible_distribution_major_version|int == 5
+ 
+  - name:  To pass the CVU checks, ensure oracle-rdbms-preinstall  installed on  EL6+.
+    yum: name={{item.filename}} state=installed
+    with_items:
+    - filename: oracle-rdbms-server-12cR1-preinstall
+    when:
+      ansible_distribution_major_version|int >= 6
+
+
+

@@ -1,0 +1,5 @@
+- hosts: allvm
+  tasks:
+
+  - name: copy motd file
+    copy: src=/tmp/motd dest=/etc/motd  owner=root mode=644

@@ -1,0 +1,6 @@
+- hosts: allvm
+  tasks:
+  - name: e2fsprogs-devel on all  EL6 nodes
+    yum: name=e2fsprogs-devel state=latest
+    async: 300
+    poll: 10

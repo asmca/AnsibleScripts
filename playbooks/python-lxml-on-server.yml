@@ -1,0 +1,4 @@
+- hosts: ALLSERVER
+  tasks:
+  - name: Ensure  python-lxml packages installed , for xm NEW cmd functioning.
+    yum: name=python-lxml state=latest

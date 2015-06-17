@@ -1,0 +1,8 @@
+- hosts: allvm
+  tasks:
+  - name: ensure all related parameters set. kernel.panic_on_oops
+    sysctl: name="kernel.panic_on_oops" value=1 sysctl_set=yes state=present reload=yes
+  - name: ensure all related parameters set. kernel.panic_on_oops
+    sysctl: name="kernel.panic" value=1 sysctl_set=yes state=present reload=yes
+  - name: ensure all related parameters set. kernel.panic_on_oops
+    sysctl: name="kernel.sysrq" value=1 sysctl_set=yes state=present reload=yes

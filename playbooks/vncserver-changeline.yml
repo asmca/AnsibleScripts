@@ -1,0 +1,5 @@
+- hosts: allvm
+  tasks:
+  - name: trick to patch vncserver, to use icewm as default
+ #   replace: dest=/usr/bin/vncserver regexp='(.*)twm(\s+.*)?$' replace='\1icewm\2' 
+    file: path=/usr/bin/vncserver owner=root mode=0755

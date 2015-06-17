@@ -1,0 +1,4 @@
+- hosts: qos_c1
+  tasks:
+  - name: remove dracut for now.
+    yum: name={{ item.filename }} state=absent

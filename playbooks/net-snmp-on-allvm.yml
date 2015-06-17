@@ -1,0 +1,17 @@
+- hosts: allvm
+  tasks:
+  - name: lm_sensors-libs package check installation status. // not a must 
+    yum: name=lm_sensors-libs state=latest
+  - name: net-snmp-libs packages check installation status. // not a must.
+    yum: name=net-snmp-libs state=latest
+  - name: net-snmp package check installation status.
+    yum: name=net-snmp   state=latest
+  - name: net-snmp-utils package check installation status.
+    yum: name=net-snmp-utils  state=latest
+  - name: Ensure snmpd serviceis running.
+    service: name=snmpd state=restarted enabled=yes
+
+
+#  - name: Ensure portmap is running.
+#    service: name=portmap state=started enabled=yes
+

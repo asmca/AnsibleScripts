@@ -1,0 +1,10 @@
+
+# send a message, specifying the host and port
+-  jabber:
+	 user=saihua.shi@oracle.com
+         host=stbeehive.oracle.com
+         port=5223
+         password=Iwenjun0310
+         to=saihua.shi@oracle.com
+         msg="Ansible task finished"
+

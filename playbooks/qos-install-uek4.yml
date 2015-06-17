@@ -1,0 +1,19 @@
+- hosts: rws1290692
+  tasks:
+  - name: install dracut# deps for new kernel-uek4 pre. env. ##STAGE 1
+    yum: name=http://ca-build32.us.oracle.com/auto-build/x86_64-build-output-6/{{ item.filename }}  state=present
+    with_items:
+    - filename: dracut-fips-004-336.0.1.el6.noarch.rpm
+    - filename: dracut-kernel-004-336.0.1.el6.noarch.rpm
+    - filename: dracut-network-004-336.0.1.el6.noarch.rpm
+    - filename: dracut-004-336.0.1.el6.noarch.rpm
+    when:
+     ansible_distribution_major_version|int  >= 6
+
+
+  - name: install new kernel-uek4 rpms. ## STAGE 2
+    yum: name=http://ca-build32.us.oracle.com/auto-build/x86_64-build-output-6/{{ item.filename }} state=present
+    with_items:
+    - filename: kernel-uek-firmware-3.18.2-2.el6uek.noarch.rpm
+    - filename: libdtrace-ctf-0.4.1-1.x86_64.rpm
+    - filename: kernel-uek-3.18.2-2.el6uek.x86_64.rpm

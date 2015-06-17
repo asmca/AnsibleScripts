@@ -1,0 +1,52 @@
+- hosts: allvm
+  tasks:
+
+  - name: install kernel-uek-debuginfo on EL5 machine.(step 1, fetch rpm from remote.)
+    get_url: dest=/tmp/{{item.filename}}  url="https://oss.oracle.com/ol{{ ansible_distribution_major_version }}/debuginfo/{{item.filename}}" validate_certs=no
+    with_items:
+    - filename: kernel-uek-debuginfo-common-{{ ansible_kernel +"." + ansible_architecture +".rpm" }}
+    - filename: kernel-uek-debuginfo-{{ ansible_kernel +"." + ansible_architecture  +".rpm"}}
+    environment:
+      http_proxy: http://www-proxy.us.oracle.com:8080
+    when:
+      ansible_distribution_major_version|int == 5 
+  
+  - name: install kernel-uek-debuginfo on EL5 machine.(step 2, install rpm from local/tmp.)
+    yum: pkg=/tmp/{{item.filename}} state=installed
+    with_items:
+    - filename: kernel-uek-debuginfo-common-{{ ansible_kernel +"." + ansible_architecture +".rpm" }}
+    - filename: kernel-uek-debuginfo-{{ ansible_kernel +"." + ansible_architecture  +".rpm"}}
+    when:
+      ansible_distribution_major_version|int == 5
+
+
+
+  - name: install kernel-uek-debuginfo on EL6+ machine.(EL6+ yum supports remote install directory.)
+    yum: name=https://oss.oracle.com/ol{{ ansible_distribution_major_version }}/debuginfo/{{ item.filename }}.rpm  state=installed
+    with_items:
+    - filename: kernel-uek-debuginfo-common-{{ ansible_kernel }}
+    - filename: kernel-uek-debuginfo-{{ ansible_kernel }}
+    environment:
+      http_proxy: http://www-proxy.us.oracle.com:8080
+    when:
+     ansible_distribution_major_version|int  >= 6
+
+# install kernel-debuginfo-common first as  dependency.
+#
+
+#https://oss.oracle.com/ol6/debuginfo/kernel-uek-debuginfo-3.8.13-16.2.1.el6uek.x86_64.rpm
+#https://oss.oracle.com/ol6/debuginfo/kernel-uek-debuginfo-common-3.8.13-16.2.1.el6uek.x86_64.rpm
+#
+#
+#https://oss.oracle.com/ol5/debuginfo/kernel-uek-debuginfo-2.6.39-400.209.1.el5uek.x86_64.rpm
+#https://oss.oracle.com/ol5/debuginfo/kernel-uek-debuginfo-common-2.6.39-400.209.1.el5uek.x86_64.rpm
+#
+#
+#
+## Example setting host facts using complex arguments
+#- set_fact:
+#     one_fact: something
+#          other_fact: "{{ local_var * 2 }}"
+#
+# 
+#           

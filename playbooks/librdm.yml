@@ -1,0 +1,6 @@
+- hosts: allvm
+  tasks:
+  - name: librdmacm-devel on all  EL6 nodes
+    yum: name=librdmacm-devel state=latest
+    async: 300
+    poll: 10

@@ -1,0 +1,14 @@
+- hosts: allvm
+  tasks:
+
+  - name: copy correct vncserver file for EL5
+    copy: src=/tmp/el5 dest=/usr/bin/vncserver  owner=root mode=644
+    when:
+      ansible_distribution_major_version|int == 5
+ 
+
+  - name: copy correct vncserver file for EL6
+    copy: src=/tmp/el6 dest=/usr/bin/vncserver  owner=root mode=644
+    when:
+      ansible_distribution_major_version|int == 6
+
